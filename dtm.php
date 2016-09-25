@@ -354,6 +354,7 @@ function SDIDTM_wp_header() {
 
   $dataLayer = array();
   $dataLayer = (array)apply_filters("sdidtm_build_datalayer", $dataLayer);
+  $dataLayer = SDIDTM_parseDataLayerConfig($dataLayer);
 
   $_dtm_header_content = '';
 
@@ -389,6 +390,58 @@ if(typeof _satellite !== "undefined"){
   }
 
   echo $_dtm_tag;
+}
+
+
+/*
+ * Convert the dot notation into a nested array
+ */
+function SDIDTM_parseDataLayerConfig($config) {
+  if (is_array($config) && sizeof($config) > 0) {
+    $dataLayer = array();
+
+    foreach($config as $key => $value){
+      if ( isset($dataLayer[$key]) ) {
+        if ( is_array($dataLayer[$key]) && sizeof($dataLayer[$key]) === sizeof($dataLayer[$key], COUNT_RECURSIVE)) {
+          $dataLayer[$key][] = $value;
+        }else{
+          $dataLayer[$key] = $value;
+        }
+      } else {
+        $dataLayer = array_merge_recursive($dataLayer, SDIDTM_createElement($key, $value));
+      }
+    }
+  }else{
+    $dataLayer = $config;
+  }
+
+  return $dataLayer;
+}
+
+// recursive function to construct an object from dot-notation
+function SDIDTM_createElement($key, $value) {
+  $element = array();
+  $key = (string)$key;
+  // if the key is a property
+  if (strpos($key, '.') !== false) {
+    // extract the first part with the name of the object
+    $list = explode('.', $key);
+    // the rest of the key
+    $sub_key = substr_replace($key, "", 0, strlen($list[0])+1);
+    // create the object if it doesnt exist
+    if (!$element[$list[0]]) $element[$list[0]] = array();
+    // if the key is not empty, create it in the object
+    if ($sub_key !== '') {
+      $element[$list[0]] = SDIDTM_createElement($sub_key, $value);
+    } else {
+      //var_export('SDIDTM_createElement :: empty property in key "'. $key .'"');
+    }
+  }
+  // just normal key
+  else {
+    $element[$key] = $value;
+  }
+  return $element;
 }
 
 add_action("wp_head", "SDIDTM_wp_header", 1);
