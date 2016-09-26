@@ -35,6 +35,30 @@
   ],
   "dataLayer": [
     {
+      "label": "Site Title",
+      "name": "sitetitle",
+      "default": "siteTitle",
+      "desc": "Check this option to include the Site Title."
+    },
+    {
+      "label": "Site Description / Tagline",
+      "name": "sitedescription",
+      "default": "siteDescription",
+      "desc": "Check this option to include the Site Description / Tagline."
+    },
+    {
+      "label": "Site Platform",
+      "name": "siteplatform",
+      "default": "sitePlatform",
+      "desc": "Check this option to include the platform name: 'WordPress'."
+    },
+    {
+      "label": "Site URL",
+      "name": "siteurl",
+      "default": "siteUrl",
+      "desc": "Check this option to include the Site URL."
+    },
+    {
       "label": "Post Type",
       "name": "posttype",
       "default": "pageType",
@@ -77,10 +101,22 @@
       "desc": "Check this option to include the date of the post. This will be an object with 4 sub objects: date, year, month, and day."
     },
     {
+      "label": "Modified Date",
+      "name": "modifieddate",
+      "default": "pageModifiedDate",
+      "desc": "Check this option to include the last modified date of the post. This will be an object with 4 sub objects: date, year, month, and day."
+    },
+    {
       "label": "Post Title",
       "name": "posttitle",
       "default": "postTitle",
       "desc": "Check this option to include the meta title of the post/page."
+    },
+    {
+      "label": "Post Excerpt",
+      "name": "postexcerpt",
+      "default": "postExcerpt",
+      "desc": "Check this option to include the excerpt of the post/page."
     },
     {
       "label": "Post Custom Fields",
